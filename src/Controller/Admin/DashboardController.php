@@ -24,7 +24,7 @@ class DashboardController extends AbstractDashboardController
         $accounts = $this->getDoctrine()->getRepository(Normes::class)->count([]);
         $contacts = $this->getDoctrine()->getRepository(Categories::class)->count([]);
  
-        return $this->render('Admin/dashboard.html.twig', [
+        return $this->render('admin/dashboard.html.twig', [
             'accounts' => $accounts,
             'contacts' => $contacts,
         ]);
