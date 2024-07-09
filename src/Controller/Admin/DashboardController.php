@@ -33,7 +33,8 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Audit');
+            ->setTitle('Audit')
+            ->disableUrlSignatures();
     }
 
     public function configureMenuItems(): iterable
