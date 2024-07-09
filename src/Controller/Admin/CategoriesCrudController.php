@@ -52,7 +52,7 @@ class CategoriesCrudController extends AbstractCrudController
         yield AssociationField::new('IdNormes')
             ->setLabel('Norme');
         yield TextField::new('name')
-            ->setLabel('Nom');
+            ->setLabel('Catégorie');
         yield TextEditorField::new('text')
             ->setLabel('');
     }

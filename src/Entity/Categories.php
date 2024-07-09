@@ -36,16 +36,16 @@ class Categories
     private $text;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Workers::class, mappedBy="categories")
+     * @ORM\OneToMany(targetEntity=CacesDate::class, mappedBy="categories")
      */
-    private $workers;
+    private $categories;
 
     public function __construct()
     {
-        $this->workers = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
-    public function getId(): ?int
+      public function getId(): ?int
     {
         return $this->id;
     }
@@ -86,35 +86,39 @@ class Categories
         return $this;
     }
 
-    /**
-     * @return Collection<int, Workers>
-     */
-    public function getWorkers(): Collection
-    {
-        return $this->workers;
-    }
-
-    public function addWorker(Workers $worker): self
-    {
-        if (!$this->workers->contains($worker)) {
-            $this->workers[] = $worker;
-            $worker->addCategory($this);
-        }
-
-        return $this;
-    }
-
-    public function removeWorker(Workers $worker): self
-    {
-        if ($this->workers->removeElement($worker)) {
-            $worker->removeCategory($this);
-        }
-
-        return $this;
-    }
-
     public function __toString(): string
         {
-            return $this->getName();
+            return $this->getIdNormes()->getShortName() . ' - ' . $this->getName();
         }
+
+    /**
+     * @return Collection<int, CacesDate>
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(CacesDate $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories[] = $category;
+            $category->setCategories($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(CacesDate $category): self
+    {
+        if ($this->categories->removeElement($category)) {
+            // set the owning side to null (unless already changed)
+            if ($category->getCategories() === $this) {
+                $category->setCategories(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
