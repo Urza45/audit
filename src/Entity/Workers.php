@@ -31,13 +31,13 @@ class Workers
     private $IdSite;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Categories::class, inversedBy="workers")
+     * @ORM\OneToMany(targetEntity=CacesDate::class, mappedBy="workers")
      */
-    private $categories;
+    private $Workers;
 
     public function __construct()
     {
-        $this->categories = new ArrayCollection();
+        $this->Workers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -70,25 +70,31 @@ class Workers
     }
 
     /**
-     * @return Collection<int, Categories>
+     * @return Collection<int, CacesDate>
      */
-    public function getCategories(): Collection
+    public function getWorkers(): Collection
     {
-        return $this->categories;
+        return $this->Workers;
     }
 
-    public function addCategory(Categories $category): self
+    public function addWorker(CacesDate $worker): self
     {
-        if (!$this->categories->contains($category)) {
-            $this->categories[] = $category;
+        if (!$this->Workers->contains($worker)) {
+            $this->Workers[] = $worker;
+            $worker->setWorkers($this);
         }
 
         return $this;
     }
 
-    public function removeCategory(Categories $category): self
+    public function removeWorker(CacesDate $worker): self
     {
-        $this->categories->removeElement($category);
+        if ($this->Workers->removeElement($worker)) {
+            // set the owning side to null (unless already changed)
+            if ($worker->getWorkers() === $this) {
+                $worker->setWorkers(null);
+            }
+        }
 
         return $this;
     }
