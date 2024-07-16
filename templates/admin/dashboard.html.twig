@@ -1,9 +1,55 @@
 {% extends '@EasyAdmin/layout.html.twig' %}
 
 {% block main %}
-	You have
-	{{ accounts }}
-	accounts and
-	{{ contacts }}
-	contacts.
+	Il y
+	{{ nbNormes }}
+	normes et
+	{{ nbCategories }}
+	catégories dans la base actuellement.
+	<br>
+	<hr>
+	Il y
+	{{ nbSite }}
+	site(s) répertorié(s) et
+	{{ nbWorkers }}
+	employé(e)(s) dans la base actuellement.
+	<br>
+	<hr>
+	Il y
+	{{ nbDatesCaces }}
+	date(s) renseignées concernant les validités des caces
+	<br>
+	<hr>
+    <h1>Dates obsolètes CACES</h1>
+    {% set id = 0 %}
+	{% if cacesDate is not empty %}
+
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Identifiant</th>
+					<th scope="col">Nom</th>
+					<th scope="col">Prénom</th>
+					<th scope="col">Catégorie</th>
+					<th scope="col">Obtention</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for ObsoleteDate in cacesDate %}
+                    {% set id = id + 1 %}
+					<tr>
+						<th scope="row">{{ id }}</th>
+						<td>{{ ObsoleteDate.identifier }}</td>
+						<td>{{ ObsoleteDate.last_name }}</td>
+						<td>{{ ObsoleteDate.first_name }}</td>
+						<td>{{ ObsoleteDate.short_name }}
+							-
+							{{ ObsoleteDate.name }}</td>
+						<td>{{ ObsoleteDate.obtention_date }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endif %}
 {% endblock %}

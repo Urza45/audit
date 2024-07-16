@@ -131,4 +131,9 @@ class Site
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->getIdentifier(). ' - ' . $this->getAddress() . ' ' . $this->getPostalCode() . ' ' . $this->getTown();
+    }
 }

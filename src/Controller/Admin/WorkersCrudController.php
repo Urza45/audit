@@ -24,7 +24,7 @@ class WorkersCrudController extends AbstractCrudController
         return Workers::class;
     }
 
-    
+
     public function configureFields(string $pageName): iterable
     {
         /*
@@ -35,7 +35,13 @@ class WorkersCrudController extends AbstractCrudController
         ];
         */
 
-        yield AssociationField::new('Workers');
+        yield AssociationField::new('IdSite')
+            ->setLabel('Site');
+        yield TextField::new('identifier')
+            ->setLabel('Identifiant');
+        yield TextField::new('lastName')
+            ->setLabel('Nom');
+        yield TextField::new('firstName')
+            ->setLabel('Prénom');
     }
-    
 }

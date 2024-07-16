@@ -7,6 +7,7 @@ use App\Entity\Categories;
 use App\Entity\Normes;
 use App\Entity\Site;
 use App\Entity\Workers;
+use App\Repository\CacesDateRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -15,18 +16,33 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardController extends AbstractDashboardController
 {
+    private CacesDateRepository $cacesDateRepository;
+    
+    public function __construct(CacesDateRepository $cacesDateRepository)
+    {
+        $this->cacesDateRepository = $cacesDateRepository;
+    }
+    
     /**
      * @Route("/admin", name="admin")
      */
     public function index(): Response
     {
         //return parent::index();
-        $accounts = $this->getDoctrine()->getRepository(Normes::class)->count([]);
-        $contacts = $this->getDoctrine()->getRepository(Categories::class)->count([]);
+
+        $nbNormes = $this->getDoctrine()->getRepository(Normes::class)->count([]);
+        $nbCategories = $this->getDoctrine()->getRepository(Categories::class)->count([]);
+        $nbSite = $this->getDoctrine()->getRepository(Site::class)->count([]);
+        $nbWorkers = $this->getDoctrine()->getRepository(Workers::class)->count([]);
+        $nbDatesCaces = $this->getDoctrine()->getRepository(CacesDate::class)->count([]);
  
         return $this->render('admin/dashboard.html.twig', [
-            'accounts' => $accounts,
-            'contacts' => $contacts,
+            'nbNormes' => $nbNormes,
+            'nbCategories' => $nbCategories,
+            'nbSite' => $nbSite,
+            'nbWorkers' => $nbWorkers,
+            'nbDatesCaces' => $nbDatesCaces,
+            'cacesDate' => $this->cacesDateRepository->getObsoleteDate(),
         ]);
     }
 
